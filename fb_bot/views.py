@@ -7,8 +7,10 @@ from pprint import pprint
 import requests
 from .models import TargetUser
 
+access_token = ''
+
 def post_facebook_message(fbid, recevied_message):           
-    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAKSFVMB3yQBAHTlIulnBVk4lHXeIEucPj4WaLYHBK7WmqZBzw7U66PWnEnDtTnxo98cloXdbZAzqNfJiiIFlzrhxsbm67sUrdGTNOOpqBm1DKT151r5KNsqHWZCjHfcXSKLaiU7dQOPeEkr0M4LIx3caxKeZCVrZAj9K9HyCdQZDZD' 
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token={}'.format(access_token) 
     response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":recevied_message}})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
     pprint(status.json())
@@ -16,7 +18,7 @@ def post_facebook_message(fbid, recevied_message):
 def send_reminder(recevied_message):
     for user in TargetUser.objects.all():
         fbid = user.fbid
-        post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAKSFVMB3yQBAHTlIulnBVk4lHXeIEucPj4WaLYHBK7WmqZBzw7U66PWnEnDtTnxo98cloXdbZAzqNfJiiIFlzrhxsbm67sUrdGTNOOpqBm1DKT151r5KNsqHWZCjHfcXSKLaiU7dQOPeEkr0M4LIx3caxKeZCVrZAj9K9HyCdQZDZD' 
+        post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token={}'.format(access_token) 
         response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":recevied_message}})
         status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
         pprint(status.json())
